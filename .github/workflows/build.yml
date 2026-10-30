@@ -1,9 +1,12 @@
 name: Build APK
+
 on:
   push:
   workflow_dispatch:
+
 permissions:
   contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,9 +20,11 @@ jobs:
       - uses: gradle/actions/setup-gradle@v3
         with:
           gradle-version: 8.5
+          cache-disabled: true
       - run: gradle assembleDebug --no-daemon
         working-directory: RekoControls
       - uses: softprops/action-gh-release@v2
         with:
           tag_name: build-${{ github.run_number }}
           files: RekoControls/app/build/outputs/apk/debug/app-debug.apk
+          
